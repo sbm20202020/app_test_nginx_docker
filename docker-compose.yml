@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  #Nginx Service
+  webserver:
+    container_name: webserver
+    build: .
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+
+    volumes:
+      - ./www/MyResume/.:/var/www/MyResume/.
+      - ./conf.d/.:/etc/nginx/conf.d
+    links:
+      - php
+  php:
+    image: php:7-fpm
+    volumes:
+       - ./www/MyResume/.:/var/www/MyResume/.
+
